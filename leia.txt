@@ -1,0 +1,14 @@
+instalar dependências:
+    docker run --rm -v "$PWD:/app" -w /app node npm install
+
+dar build via docker:
+    docker run --rm -v "$PWD:/app" -w /app node npm run build
+    
+
+Tarefas de infra:
+    habilitar o github actions para:
+        - subir automaticamente no ambiente de homologação ao dar push na branch de desenvolvimento
+        - subir automaticamente no ambiente de produção ao dar push na branch de produção
+
+Tarefas no sistema:
+    01 - construir tela inicial com uma identidade minimalista aproveitando o estilo da instalação do projeto
