@@ -2,7 +2,7 @@
 
   <div class="m-0 ma-sm-16 py-10">
 
-    <h1 class="text-center">Lista de tarefas</h1>
+    <h1 class="text-center">Lista de tarefas.</h1>
     
     <v-card class="mx-2">
       
