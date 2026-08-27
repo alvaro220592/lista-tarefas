@@ -1,0 +1,47 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - producao
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: producao
+
+    steps:
+
+      # Baixa o código da branch producao para o runner do GitHub Actions
+      - name: Baixar código
+        uses: actions/checkout@v4
+
+      # Configura a chave SSH para o runner conseguir acessar a VPS
+      - name: Configurar SSH
+        env:
+          SSH_KEY: ${{ secrets.CHAVE_SSH_VPS }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_KEY" > ~/.ssh/github_actions
+          chmod 600 ~/.ssh/github_actions
+          ssh-keyscan -H ${{ vars.IP_VPS }} >> ~/.ssh/known_hosts
+
+      # Cria um backup do PRD antes de substituí-lo
+      - name: Backup do PRD
+        run: |
+          ssh -i ~/.ssh/github_actions \
+            ${{ vars.USUARIO_VPS }}@${{ vars.IP_VPS }} \
+            "mkdir -p /var/www/html/estudos/ci-cd/backups"
+
+          ssh -i ~/.ssh/github_actions \
+            ${{ vars.USUARIO_VPS }}@${{ vars.IP_VPS }} \
+            "tar -czf /var/www/html/estudos/ci-cd/backups/lista-tarefas-\$(date +%Y%m%d-%H%M%S).tar.gz -C /var/www/html/estudos/ci-cd/prd lista-tarefas"
+
+      # Copia a nova versão para o PRD
+      - name: Deploy para PRD
+        run: |
+          rsync -avz --delete \
+            -e "ssh -i ~/.ssh/github_actions" \
+            --exclude=".git" \
+            --exclude="config.js" \
+            ./ ${{ vars.USUARIO_VPS }}@${{ vars.IP_VPS }}:/var/www/html/estudos/ci-cd/prd/lista-tarefas/
