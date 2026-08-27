@@ -16,6 +16,21 @@ jobs:
       - name: Baixar código
         uses: actions/checkout@v4
 
+      # Configura o Node.js
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      # Instala as dependências do projeto
+      - name: Instalar dependências
+        run: npm ci
+
+      # Gera o build de produção do Vue/Vite
+      - name: Gerar build
+        run: npm run build
+
       # Configura a chave SSH para o runner conseguir acessar a VPS
       - name: Configurar SSH
         env:
@@ -37,11 +52,11 @@ jobs:
             ${{ vars.USUARIO_VPS }}@${{ vars.IP_VPS }} \
             "tar -czf /var/www/html/estudos/ci-cd/backups/lista-tarefas-\$(date +%Y%m%d-%H%M%S).tar.gz -C /var/www/html/estudos/ci-cd/prd lista-tarefas"
 
-      # Copia a nova versão para o PRD
+      # Copia somente o build gerado para o PRD
       - name: Deploy para PRD
         run: |
           rsync -avz --delete \
             -e "ssh -i ~/.ssh/github_actions" \
-            --exclude=".git" \
             --exclude="config.js" \
-            ./ ${{ vars.USUARIO_VPS }}@${{ vars.IP_VPS }}:/var/www/html/estudos/ci-cd/prd/lista-tarefas/
+            ./dist/ \
+            ${{ vars.USUARIO_VPS }}@${{ vars.IP_VPS }}:/var/www/html/estudos/ci-cd/prd/lista-tarefas/
