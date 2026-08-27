@@ -29,6 +29,8 @@ jobs:
 
       # Gera o build de produção do Vue/Vite
       - name: Gerar build
+        env:
+          VITE_BASE: /estudos/ci-cd/prd/lista-tarefas/
         run: npm run build
 
       # Configura a chave SSH para o runner conseguir acessar a VPS
