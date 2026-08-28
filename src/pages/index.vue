@@ -1,6 +1,13 @@
 <template>
 
-  <v-card variant="outlined" color="yellow-darken-2" class="text-center">Ambiente de {{ ambiente }}</v-card>
+  <v-card
+    v-if="ambiente != 'produção'"
+    variant="outlined"
+    color="yellow-darken-2"
+    class="text-center"
+  >
+    Ambiente de {{ ambiente }}
+  </v-card>
 
   <div class="m-0 ma-sm-16 py-10">
     <h1 class="text-center">Lista de tarefas</h1>
