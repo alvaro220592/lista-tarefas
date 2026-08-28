@@ -6,7 +6,15 @@ dar build via docker:
 
 rodar via npm run dev:
     docker run --rm -it -v "$PWD:/app" -w /app -p 3000:3000 node npm run dev -- --host 0.0.0.0
+
+    ou para deixar em segundo plano:
+
+    nohup docker run --rm --name vite-lista-tarefas -v "$PWD:/app" -w /app -p 3000:3000 node npm run dev -- --host 0.0.0.0 > vite.log 2>&1 &
+    
+    vai rodar em:
     http://191.252.214.80:3000/estudos/ci-cd/dev/lista-tarefas/
+
+
     
 
 Tarefas de infra:

@@ -2,33 +2,33 @@
 
   <div class="m-0 ma-sm-16 py-10">
 
-    <h1 class="text-center">Lista de tarefas.</h1>
-    
+    <h1 class="text-center">Lista de tarefas</h1>
+
     <v-card class="mx-2">
-      
+
       <v-card-text>
-        <v-text-field
-          density="compact"
-          v-model="search"
-          label="Buscar"
-          append-inner-icon="mdi-magnify"
-          variant="outlined"
-          hide-details
-          single-line
-        />
+        <v-text-field density="compact" v-model="search" label="Buscar" append-inner-icon="mdi-magnify"
+          variant="outlined" hide-details single-line />
       </v-card-text>
 
-      <v-list density="compact">
+      <v-list density="compact" class="bg-teal-darken-4">
+        <template v-for="(tarefa, index) in tarefas" :key="tarefa.id">
 
-        <v-list-item v-for="tarefa in tarefas" :key="tarefa.id" :value="tarefa.id" class="py-3" active-class="none">
-          <template v-slot:prepend>
-            <v-icon icon="mdi-circle" :color="corPrioridade(tarefa.prioridade)"></v-icon>
-          </template>
+          <v-list-item :value="tarefa.id" class="py-3" active-class="none">
+            
+            <template v-slot:prepend>
+              <v-icon icon="mdi-circle" :color="corPrioridade(tarefa.prioridade)" />
+            </template>
 
-          <v-list-item-title>{{ tarefa.titulo }}</v-list-item-title>
+            <v-list-item-title>{{ tarefa.titulo }}</v-list-item-title>
 
-          <v-list-item-subtitle class="text-high-emphasis">{{ tarefa.descricao }}</v-list-item-subtitle>
-        </v-list-item>
+            <v-list-item-subtitle class="text-high-emphasis">
+              {{ tarefa.descricao }}
+            </v-list-item-subtitle>
+          </v-list-item>
+
+          <v-divider v-if="index < tarefas.length - 1" />
+        </template>
       </v-list>
     </v-card>
   </div>
@@ -69,7 +69,7 @@ onMounted(() => {
 
 function corPrioridade(prioridade) {
   const cores = {
-    'Alta': 'error',
+    'Alta': 'red-darken-1',
     'Média': 'warning',
     'Baixa': 'success'
   }
