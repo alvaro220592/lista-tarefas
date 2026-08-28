@@ -19,9 +19,10 @@ rodar via npm run dev:
 
 Tarefas de infra:
     habilitar o github actions para:
-        - subir automaticamente no ambiente de homologação ao dar push na branch de desenvolvimento
-        - subir automaticamente no ambiente de produção ao dar push na branch de produção
+        - (FINALIZADA) subir automaticamente no ambiente de homologação ao dar merge pull request na branch de desenvolvimento
+        - (FINALIZADA) subir automaticamente no ambiente de produção ao dar merge pull request na branch de produção
 
 Tarefas no sistema:
-    01 - construir tela inicial com uma identidade minimalista aproveitando o estilo da instalação do projeto
-    02 - inserir tarjas de ambiente para desenvolvimento e homologação
+    01 - (FINALIZADA) construir tela inicial com uma identidade minimalista aproveitando o estilo da instalação do projeto
+    02 - (FINALIZADA) inserir tarjas de ambiente para desenvolvimento e homologação
+    03 - (PENDENTE) habilitar a criação de nova tarefa
