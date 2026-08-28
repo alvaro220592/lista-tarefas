@@ -9,6 +9,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: infraestrutura
 
     steps:
 
@@ -21,7 +22,7 @@ jobs:
           if [ "${GITHUB_REF_NAME}" = "desenvolvimento" ]; then
             echo "ambiente=hom" >> "$GITHUB_OUTPUT"
             echo "base=/estudos/ci-cd/hom/lista-tarefas/" >> "$GITHUB_OUTPUT"
-            
+
           elif [ "${GITHUB_REF_NAME}" = "producao" ]; then
             echo "ambiente=prd" >> "$GITHUB_OUTPUT"
             echo "base=/estudos/ci-cd/prd/lista-tarefas/" >> "$GITHUB_OUTPUT"
