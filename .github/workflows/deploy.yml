@@ -64,11 +64,11 @@ jobs:
         run: |
           ssh -i ~/.ssh/github_actions \
             ${{ vars.USUARIO_VPS }}@${{ vars.IP_VPS }} \
-            "mkdir -p /var/www/html/estudos/ci-cd/backups"
+            "mkdir -p /var/www/html/estudos/ci-cd/${{ steps.ambiente.outputs.ambiente }}/backups"
 
           ssh -i ~/.ssh/github_actions \
             ${{ vars.USUARIO_VPS }}@${{ vars.IP_VPS }} \
-            "tar -czf /var/www/html/estudos/ci-cd/backups/lista-tarefas-\$(date +%Y%m%d-%H%M%S).tar.gz -C /var/www/html/estudos/ci-cd/${{ steps.ambiente.outputs.ambiente }} lista-tarefas"
+            "tar -czf /var/www/html/estudos/ci-cd/${{ steps.ambiente.outputs.ambiente }}/backups/lista-tarefas-\$(date +%Y%m%d-%H%M%S).tar.gz -C /var/www/html/estudos/ci-cd/${{ steps.ambiente.outputs.ambiente }} lista-tarefas"
 
       # Copia o build para o ambiente
       - name: Deploy
