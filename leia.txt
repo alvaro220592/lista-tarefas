@@ -24,3 +24,4 @@ Tarefas de infra:
 
 Tarefas no sistema:
     01 - construir tela inicial com uma identidade minimalista aproveitando o estilo da instalação do projeto
+    02 - inserir tarjas de ambiente para desenvolvimento e homologação
