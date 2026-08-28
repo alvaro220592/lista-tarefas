@@ -3,16 +3,31 @@ name: CI/CD
 on:
   push:
     branches:
+      - desenvolvimento
       - producao
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: producao
 
     steps:
 
-      # Baixa o código da branch producao para o runner do GitHub Actions
+      # Define as configurações de acordo com a branch
+      - name: Definir ambiente
+        id: ambiente
+        # se a branch for 'desenvolvimento', o deploy é no ambiente de homologação
+        # senão
+        run: |
+          if [ "${GITHUB_REF_NAME}" = "desenvolvimento" ]; then
+            echo "ambiente=hom" >> "$GITHUB_OUTPUT"
+            echo "base=/estudos/ci-cd/hom/lista-tarefas/" >> "$GITHUB_OUTPUT"
+            
+          elif [ "${GITHUB_REF_NAME}" = "producao" ]; then
+            echo "ambiente=prd" >> "$GITHUB_OUTPUT"
+            echo "base=/estudos/ci-cd/prd/lista-tarefas/" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Baixa o código da branch
       - name: Baixar código
         uses: actions/checkout@v4
 
@@ -23,17 +38,17 @@ jobs:
           node-version: 22
           cache: npm
 
-      # Instala as dependências do projeto
+      # Instala as dependências
       - name: Instalar dependências
         run: npm ci
 
-      # Gera o build de produção do Vue/Vite
+      # Gera o build do Vue/Vite
       - name: Gerar build
         env:
-          VITE_BASE: /estudos/ci-cd/prd/lista-tarefas/
+          VITE_BASE: ${{ steps.ambiente.outputs.base }}
         run: npm run build
 
-      # Configura a chave SSH para o runner conseguir acessar a VPS
+      # Configura a chave SSH
       - name: Configurar SSH
         env:
           SSH_KEY: ${{ secrets.CHAVE_SSH_VPS }}
@@ -43,8 +58,8 @@ jobs:
           chmod 600 ~/.ssh/github_actions
           ssh-keyscan -H ${{ vars.IP_VPS }} >> ~/.ssh/known_hosts
 
-      # Cria um backup do PRD antes de substituí-lo
-      - name: Backup do PRD
+      # Cria backup
+      - name: Criar backup
         run: |
           ssh -i ~/.ssh/github_actions \
             ${{ vars.USUARIO_VPS }}@${{ vars.IP_VPS }} \
@@ -52,13 +67,13 @@ jobs:
 
           ssh -i ~/.ssh/github_actions \
             ${{ vars.USUARIO_VPS }}@${{ vars.IP_VPS }} \
-            "tar -czf /var/www/html/estudos/ci-cd/backups/lista-tarefas-\$(date +%Y%m%d-%H%M%S).tar.gz -C /var/www/html/estudos/ci-cd/prd lista-tarefas"
+            "tar -czf /var/www/html/estudos/ci-cd/backups/lista-tarefas-\$(date +%Y%m%d-%H%M%S).tar.gz -C /var/www/html/estudos/ci-cd/${{ steps.ambiente.outputs.ambiente }} lista-tarefas"
 
-      # Copia somente o build gerado para o PRD
-      - name: Deploy para PRD
+      # Copia o build para o ambiente
+      - name: Deploy
         run: |
           rsync -avz --delete \
             -e "ssh -i ~/.ssh/github_actions" \
             --exclude="config.js" \
             ./dist/ \
-            ${{ vars.USUARIO_VPS }}@${{ vars.IP_VPS }}:/var/www/html/estudos/ci-cd/prd/lista-tarefas/
+            ${{ vars.USUARIO_VPS }}@${{ vars.IP_VPS }}:/var/www/html/estudos/ci-cd/${{ steps.ambiente.outputs.ambiente }}/lista-tarefas/
