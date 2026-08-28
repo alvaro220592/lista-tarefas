@@ -16,16 +16,14 @@ jobs:
       # Define as configurações de acordo com a branch
       - name: Definir ambiente
         id: ambiente
-        # se a branch for 'desenvolvimento', o deploy é no ambiente de homologação
-        # senão
         run: |
           if [ "${GITHUB_REF_NAME}" = "desenvolvimento" ]; then
             echo "ambiente=hom" >> "$GITHUB_OUTPUT"
-            echo "base=/estudos/ci-cd/hom/lista-tarefas/" >> "$GITHUB_OUTPUT"
+            echo "modo=homologacao" >> "$GITHUB_OUTPUT"
 
           elif [ "${GITHUB_REF_NAME}" = "producao" ]; then
             echo "ambiente=prd" >> "$GITHUB_OUTPUT"
-            echo "base=/estudos/ci-cd/prd/lista-tarefas/" >> "$GITHUB_OUTPUT"
+            echo "modo=producao" >> "$GITHUB_OUTPUT"
           fi
 
       # Baixa o código da branch
@@ -45,9 +43,7 @@ jobs:
 
       # Gera o build do Vue/Vite
       - name: Gerar build
-        env:
-          VITE_BASE: ${{ steps.ambiente.outputs.base }}
-        run: npm run build
+        run: npm run build -- --mode ${{ steps.ambiente.outputs.modo }}
 
       # Configura a chave SSH
       - name: Configurar SSH

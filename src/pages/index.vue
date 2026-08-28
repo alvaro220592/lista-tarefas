@@ -1,7 +1,8 @@
 <template>
 
-  <div class="m-0 ma-sm-16 py-10">
+  <v-card variant="outlined" color="yellow-darken-2" class="text-center">Ambiente de {{ ambiente }}</v-card>
 
+  <div class="m-0 ma-sm-16 py-10">
     <h1 class="text-center">Lista de tarefas</h1>
 
     <v-card class="mx-2">
@@ -39,8 +40,11 @@
 import { onMounted, ref } from 'vue';
 
 const tarefas = ref([])
+const ambiente = ref('')
 
 onMounted(() => {
+  ambiente.value = import.meta.env.VITE_AMBIENTE_DETALHADO
+  
   tarefas.value = [
     {
       "id": 1000,
