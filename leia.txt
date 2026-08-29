@@ -25,4 +25,5 @@ Tarefas de infra:
 Tarefas no sistema:
     01 - (FINALIZADA) construir tela inicial com uma identidade minimalista aproveitando o estilo da instalação do projeto
     02 - (FINALIZADA) inserir tarjas de ambiente para desenvolvimento e homologação
-    03 - (PENDENTE) habilitar a criação de nova tarefa
+    03 - (FINALIZADA) habilitar a criação de nova tarefa
+    04 - (PENDENTE) habilitar a edição de uma tarefa
