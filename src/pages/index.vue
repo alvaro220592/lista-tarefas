@@ -145,7 +145,7 @@ const abrirDialogFormTarefa = (idTarefa = null) => {
   formTarefaTituloDialog.value = 'Nova tarefa'
   tituloTarefa.value = ''
   descricaoTarefa.value = ''
-  prioridadeTarefa.value = ''
+  prioridadeTarefa.value = 'Baixa'
 
   if (idTarefa) {
     formTarefaTituloDialog.value = 'Editar tarefa'
