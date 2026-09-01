@@ -59,5 +59,15 @@ export default defineConfig(({ mode }) => {
       port: 3000,
     },
 
+    test: {
+      environment: 'jsdom',
+      css: true,
+      setupFiles: './tests/setup.js',
+      server: {
+        deps: {
+          inline: ['vuetify'],
+        },
+      },
+    },
   }
 })
