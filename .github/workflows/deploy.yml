@@ -37,9 +37,13 @@ jobs:
           node-version: 22
           cache: npm
 
-      # Instala as dependências
+      # Instala as dependências: npm ci instala as dependências do projeto exatamente conforme o package-lock.json
       - name: Instalar dependências
         run: npm ci
+
+      # Executa os testes automatizados (CI)
+      - name: Executar testes
+        run: npm run test
 
       # Gera o build do Vue/Vite
       - name: Gerar build

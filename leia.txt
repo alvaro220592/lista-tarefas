@@ -14,6 +14,29 @@ rodar via npm run dev:
     vai rodar em:
     http://191.252.214.80:3000/estudos/ci-cd/dev/lista-tarefas/
 
+Para a etapa CI: etapa de testes:
+    instalação do executor dos testes (vitest) e da biblioteca que ajuda testar componentes (@vue/test-utils):
+        npm install -D vitest @vue/test-utils
+    adicionar no 'scripts' do package.json:
+        "test": "vitest run"
+    criar:
+        teste/FormTarefa.test.js
+        tests/setup.js
+    instalar:
+        npm install -D jsdom
+    em vite.config.mjs, adicione ao 'return':
+        test: {
+            environment: 'jsdom',
+            css: true,
+            setupFiles: './tests/setup.js',
+            server: {
+                deps: {
+                    inline: ['vuetify'],
+                },
+            },
+        },
+    rodar pra testar e depois colocar no deploy.yml:
+        npm run test
 
     
 
@@ -26,5 +49,8 @@ Tarefas no sistema:
     01 - (FINALIZADA) construir tela inicial com uma identidade minimalista aproveitando o estilo da instalação do projeto
     02 - (FINALIZADA) inserir tarjas de ambiente para desenvolvimento e homologação
     03 - (FINALIZADA) habilitar a criação de nova tarefa
-    04 - (PENDENTE) melhoria da seleção de prioridade - Abrir já com o 'Baixa' selecionado
-    05 - (PENDENTE) habilitar a edição de uma tarefa
+    -- pulei o 04 sem querer
+    05 - (FINALIZADA) melhoria da seleção de prioridade - Abrir já com o 'Baixa' selecionado
+    06 - (ANDAMENTO) implantar etapa CI do CI/CD
+    07 - (PENDENTE) validar campos ao salvar tarefa (não permitir valores vazios)
+    08 - (PENDENTE) habilitar a edição de uma tarefa
