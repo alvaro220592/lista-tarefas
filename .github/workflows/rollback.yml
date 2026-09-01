@@ -1,0 +1,43 @@
+name: Rollback
+
+on:
+  workflow_dispatch:
+    inputs:
+      ambiente:
+        description: Ambiente
+        required: true
+        type: choice
+        options:
+          - hom
+          - prd
+
+      backup:
+        description: Nome do arquivo de backup
+        required: true
+        type: string
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+    environment: infraestrutura
+
+    steps:
+
+      - name: Configurar SSH
+        env:
+          SSH_KEY: ${{ secrets.CHAVE_SSH_VPS }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_KEY" > ~/.ssh/github_actions
+          chmod 600 ~/.ssh/github_actions
+          ssh-keyscan -H ${{ vars.IP_VPS }} >> ~/.ssh/known_hosts
+
+      - name: Restaurar backup
+        run: |
+          ssh -i ~/.ssh/github_actions \
+            ${{ vars.USUARIO_VPS }}@${{ vars.IP_VPS }} \
+            "rm -rf /var/www/html/estudos/ci-cd/${{ inputs.ambiente }}/lista-tarefas"
+
+          ssh -i ~/.ssh/github_actions \
+            ${{ vars.USUARIO_VPS }}@${{ vars.IP_VPS }} \
+            "tar -xzf /var/www/html/estudos/ci-cd/${{ inputs.ambiente }}/backups/${{ inputs.backup }} -C /var/www/html/estudos/ci-cd/${{ inputs.ambiente }}"
