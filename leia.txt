@@ -52,6 +52,6 @@ Tarefas no sistema:
     -- pulei o 04 sem querer
     05 - (FINALIZADA) melhoria da seleção de prioridade - Abrir já com o 'Baixa' selecionado
     06 - (FINALIZADA) implantar etapa CI do CI/CD
-    07 - (ANDAMENTO) implantar rollback pelo github actions
+    07 - (FINALIZADA) implantar rollback pelo github actions
     08 - (PENDENTE) validar campos ao salvar tarefa (não permitir valores vazios)
     09 - (PENDENTE) habilitar a edição de uma tarefa
