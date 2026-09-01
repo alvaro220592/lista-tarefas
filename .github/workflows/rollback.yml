@@ -34,10 +34,17 @@ jobs:
 
       - name: Restaurar backup
         run: |
-          ssh -i ~/.ssh/github_actions \
+            ssh -i ~/.ssh/github_actions \
+            ${{ vars.USUARIO_VPS }}@${{ vars.IP_VPS }} \
+            "if [ ! -f /var/www/html/estudos/ci-cd/${{ inputs.ambiente }}/backups/${{ inputs.backup }} ]; then
+                echo 'ERRO: backup não encontrado.'
+                exit 1
+            fi"
+
+            ssh -i ~/.ssh/github_actions \
             ${{ vars.USUARIO_VPS }}@${{ vars.IP_VPS }} \
             "rm -rf /var/www/html/estudos/ci-cd/${{ inputs.ambiente }}/lista-tarefas"
 
-          ssh -i ~/.ssh/github_actions \
+            ssh -i ~/.ssh/github_actions \
             ${{ vars.USUARIO_VPS }}@${{ vars.IP_VPS }} \
             "tar -xzf /var/www/html/estudos/ci-cd/${{ inputs.ambiente }}/backups/${{ inputs.backup }} -C /var/www/html/estudos/ci-cd/${{ inputs.ambiente }}"
