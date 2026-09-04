@@ -36,7 +36,7 @@
           <v-card border variant="flat" class="mt-4 py-2 px-3">
 
             <span>Prioridades</span>
-            
+
             <div class="d-flex flex-wrap ga-4 text-body-2">
               <div class="d-flex align-center ga-1">
                 <v-icon icon="mdi-circle" color="red-darken-1" size="10" /> Alta
@@ -58,25 +58,59 @@
 
           <template v-for="(tarefa, index) in tarefas" :key="tarefa.id">
 
-            <v-list-item :value="tarefa.id" class="py-3" :active="false">
+            <v-list-item class="py-3" :active="false">
+              
+              <div class="d-flex align-center">
+                  <v-icon
+                      icon="mdi-circle"
+                      :color="corPrioridade(tarefa.prioridade)"
+                      size="10"
+                      class="me-2"
+                      style="opacity: 1"
+                  />
 
-              <template #prepend>
-                <v-icon icon="mdi-circle" :color="corPrioridade(tarefa.prioridade)" size="10" class="me-3" style="opacity: 1" />
-              </template>
+                <v-expansion-panels :rounded="[4, 8]" variant="accordion" static>
+                    <v-expansion-panel class="border" color="grey-darken-3">
+                      <v-expansion-panel-title>
+                        <div class="d-flex items-center ga-2">
 
-              <v-list-item-title class="font-weight-medium">
-                {{ tarefa.titulo }}
-              </v-list-item-title>
+                        <v-icon
+                            :icon="tarefa.finalizada ? 'mdi-check-circle' : 'mdi-clock-outline'"
+                            :color="tarefa.finalizada ? 'success' : 'warning'"
+                            size="small"
+                        />
+                        
+                        <span>{{ tarefa.titulo }}</span>
+                        </div>
+                      </v-expansion-panel-title>
 
-              <v-list-item-subtitle class="text-medium-emphasis">
-                {{ tarefa.descricao }}
-              </v-list-item-subtitle>
+                      <v-expansion-panel-text>
+                          {{ tarefa.descricao }}
+                      </v-expansion-panel-text>
+                    </v-expansion-panel>
+                </v-expansion-panels>
+              </div>
 
               <template #append>
-                <div class="d-flex ga-2 pl-4">
-                  <v-icon size="x-large" color="warning" icon="mdi-pencil-circle" @click="abrirDialogFormTarefa(tarefa.id)"></v-icon>
-                  <v-icon size="x-large" color="red" icon="mdi-delete-circle"></v-icon>
-                </div>
+                <v-menu>
+                  <template #activator="{ props }">
+                    <v-btn class="ml-2" density="compact" v-bind="props" icon="mdi-dots-vertical" variant="text" />
+                  </template>
+
+                  <v-list>
+                    <v-list-item title="Editar" @click="abrirDialogFormTarefa(tarefa.id)">
+                      <template #prepend>
+                        <v-icon icon="mdi-pencil" color="orange" />
+                      </template>
+                    </v-list-item>
+
+                    <v-list-item title="Excluir">
+                      <template #prepend>
+                        <v-icon icon="mdi-delete" color="red" />
+                      </template>
+                    </v-list-item>
+                  </v-list>
+                </v-menu>
               </template>
 
             </v-list-item>
@@ -90,14 +124,8 @@
     </div>
   </div>
 
-  <FormTarefa
-    v-model="exibirFormTarefaDialog"
-    v-model:titulo="tituloTarefa"
-    v-model:descricao="descricaoTarefa"
-    v-model:prioridade="prioridadeTarefa"
-    :tituloDialog="formTarefaTituloDialog"
-    @salvar="salvarTarefa"
-  />
+  <FormTarefa v-model="exibirFormTarefaDialog" v-model:titulo="tituloTarefa" v-model:descricao="descricaoTarefa"
+    v-model:prioridade="prioridadeTarefa" :tituloDialog="formTarefaTituloDialog" @salvar="salvarTarefa" />
 </template>
 
 <script setup>
@@ -184,3 +212,11 @@ const salvarTarefa = async () => {
   })
 }
 </script>
+
+
+<style>
+.v-expansion-panel-title, .v-expansion-panel-text__wrapper {
+    padding-left: 8px;
+    padding-right: 8px;
+}
+</style>
