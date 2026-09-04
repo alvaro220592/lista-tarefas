@@ -53,5 +53,6 @@ Tarefas no sistema:
     05 - (FINALIZADA) melhoria da seleção de prioridade - Abrir já com o 'Baixa' selecionado
     06 - (FINALIZADA) implantar etapa CI do CI/CD
     07 - (FINALIZADA) implantar rollback pelo github actions
-    08 - (PENDENTE) validar campos ao salvar tarefa (não permitir valores vazios)
-    09 - (PENDENTE) habilitar a edição de uma tarefa
+    08 - (FINALIZADA) validar campos ao salvar nova tarefa (não permitir valores vazios)
+    09 - (PENDENTE) Melhoria visual da lista de tarefas
+    10 - (PENDENTE) habilitar a edição de uma tarefa
