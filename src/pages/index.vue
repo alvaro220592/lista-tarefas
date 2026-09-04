@@ -74,13 +74,13 @@
                       <v-expansion-panel-title>
                         <div class="d-flex items-center ga-2">
 
-                        <v-icon
-                            :icon="tarefa.finalizada ? 'mdi-check-circle' : 'mdi-clock-outline'"
-                            :color="tarefa.finalizada ? 'success' : 'warning'"
-                            size="small"
-                        />
-                        
-                        <span>{{ tarefa.titulo }}</span>
+                          <v-icon
+                              :icon="tarefa.finalizada ? 'mdi-check-circle' : 'mdi-clock-outline'"
+                              :color="tarefa.finalizada ? 'success' : 'warning'"
+                              size="small"
+                          />
+                          
+                          <span>{{ tarefa.titulo }} - {{ tarefa.criado_em }}</span>
                         </div>
                       </v-expansion-panel-title>
 
@@ -149,21 +149,24 @@ onMounted(() => {
       "titulo": "Configurar servidor Nginx",
       "descricao": "Configurar o ambiente da VPS",
       "prioridade": "Alta",
-      "finalizada": true
+      "finalizada": true,
+      "criado_em": "04/09/2026"
     },
     {
       "id": 1001,
       "titulo": "Criar pipeline CI/CD",
       "descricao": "Configurar GitHub Actions",
       "prioridade": "Baixa",
-      "finalizada": false
+      "finalizada": false,
+      "criado_em": "28/08/2026"
     },
     {
       "id": 1002,
       "titulo": "Criar branches padrão do Git",
       "descricao": "Criar as branches 'desenvolvimento' e 'produção'",
       "prioridade": "Média",
-      "finalizada": false
+      "finalizada": false,
+      "criado_em": "10/08/2006"
     },
   ]
 
